@@ -5,17 +5,15 @@ public class FileSystem {
     private FSDirectory root;
     private FSDirectory current;
     private int capacity;
-    private int usedSpace;
 
     public FileSystem(int capacity) {
         this.capacity = capacity;
-        this.usedSpace = 0;
         this.root = new FSDirectory("root");
         this.current = root;
     }
 
     public int getFreeSpace() {
-        return capacity - usedSpace;
+        return capacity - root.getSize();
     }
 
     public String getCurrentDirectoryPath(){
@@ -78,15 +76,19 @@ public class FileSystem {
         current.makeFile(fullNameWithExtension, admin);
     }
 
-    public void makeFWithContent(String fullNameWithExtension, String content, boolean admin) throws NoExtensionException{
-        current.makeFileWithContent(fullNameWithExtension, content, admin);
+    public void makeFWithContent(String fullNameWithExtension, String content, boolean admin) throws NoExtensionException, InsufficientStorageException{
+        if(content.length() > getFreeSpace()){
+            throw new InsufficientStorageException("Not enough free space !");
+        } else {
+            current.makeFileWithContent(fullNameWithExtension, content, admin);
+        }
     }
 
     public void removeDir(String name, boolean admin) throws DirNotEmptyException {
         current.removeDirectory(name, admin);
     }
 
-    public void copy(String name, String destination){
+    public void copy(String name, String destination) throws InsufficientStorageException {
         FSObject sourceObject = current.getChild(name);
         FSObject destinationObject = current.getChild(destination);
 
@@ -98,6 +100,10 @@ public class FileSystem {
         if (destinationObject == null || !(destinationObject instanceof FSDirectory)) {
             System.out.println("Destination directory does not exist or is not a directory: " + destination);
             return;
+        }
+
+        if(sourceObject.getSize() > getFreeSpace()){
+            throw new InsufficientStorageException("Not enough free space !");
         }
 
         try {

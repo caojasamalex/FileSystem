@@ -40,7 +40,7 @@ abstract class FSObject {
             this.read = true;
         }
 
-        updateParentSize(this.size); // Add size to the parent
+        updateParentSize(this.size);
     }
 
     public void setSize(int size) { this.size = size; }

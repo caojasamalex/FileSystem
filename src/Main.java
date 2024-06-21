@@ -149,11 +149,12 @@ public class Main {
                             fs.chmod((adminPermission ? commandParts[3] : commandParts[2]), (adminPermission ? commandParts[2] : commandParts[1]), adminPermission);
                         }
                     }
+                    case "clear" -> clearScreen();
+                    case "statroot" -> System.out.println("Free space: " + fs.getFreeSpace() + " Bytes");
                     case "exit" -> {
                         scanner.close();
                         return;
                     }
-                    case "clear" -> clearScreen();
                     default -> {
                         System.out.println("Unknown command: " + command);
                         System.out.println("Type 'help' for a list of available commands.");

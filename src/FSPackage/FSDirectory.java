@@ -194,10 +194,11 @@ public class FSDirectory extends FSObject {
         for(FSObject child : children){
             if(child instanceof FSDirectory && child.getName().equals(name)){
                 if(admin || !child.isSystemFD()){
-                    if (((FSDirectory) child).getChildren().isEmpty()) {
+                    if (((FSDirectory) child).getChildren().isEmpty() || admin) {
+                        updateSize(-child.getSize());
                         this.children.remove(child);
                     } else {
-                        throw new DirNotEmptyException("Directory '" + name + "' is not empty !");
+                        throw new DirNotEmptyException("Directory '" + name + "' is not empty ! - Try using higher privileges.");
                     }
                 }
             }
@@ -318,16 +319,19 @@ public class FSDirectory extends FSObject {
 
         for(FSObject child : children){
             if(child instanceof FSFile){
-                if(((FSFile) child).getContent().length == 0) {
+                if(((FSFile) child).getContent().length == 0 || admin) {
                     temp = ((FSFile) child).getName() + ((FSFile) child).getExtension();
                     if(temp.equals(nameWithExtension)){
                         if((child.canDelete() && !child.isSystemFD()) || admin) {
+                            updateSize(-child.getSize());
                             children.remove(child);
                             System.out.println("File '" + child.getName()+ ((FSFile) child).getExtension() + "' deleted successfully !");
                         } else {
                             throw new PermissionException("File is not deleteable or is not a system file");
                         }
                     }
+                } else {
+                    throw new PermissionException("File is not empty. Try using higher privileges to remove it !");
                 }
             }
         }
