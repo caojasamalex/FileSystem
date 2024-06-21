@@ -130,8 +130,8 @@ public class FileSystem {
 
         try {
             if (sourceObject instanceof FSDirectory) {
-                ((FSDirectory) sourceObject).moveDir((FSDirectory) destinationObject, false);
-                System.out.println("Directory copied successfully.");
+                current.moveDir((FSDirectory) sourceObject, (FSDirectory) destinationObject, false);
+                System.out.println("Directory moved successfully.");
             } else if (sourceObject instanceof FSFile) {
                 current.moveFile(name, (FSDirectory) destinationObject, false);
             } else {

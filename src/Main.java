@@ -30,68 +30,90 @@ public class Main {
 
             try {
                 switch (command) {
-                    case "help":
-                        if(commandParts.length < (adminPermission ? 2 : 1)){ System.out.println("Usage: help"); }
-                        else { printHelp(); }
-                        break;
-
-                    case "man":
-                        if(commandParts.length < (adminPermission ? 3 : 2)){ System.out.println("Usage: man <command>"); }
-                        else { printHelpForCommand(adminPermission ? commandParts[2] : commandParts[1]); }
-                        break;
-
-                    case "ls":
-                        if(commandParts.length < (adminPermission ? 2 : 1)) { System.out.println("Usage: ls"); }
-                        else { fs.listObjectsFromCurrentDir(); }
-                        break;
-
-                    case "cd":
-                        if(commandParts.length < (adminPermission ? 3 : 2)) { System.out.println("Usage: cd <path>"); }
-                        else { fs.changeDirectory(adminPermission ? commandParts[2] : commandParts[1]); }
-                        break;
-
-                    case "pwd":
-                        if (commandParts.length < (adminPermission ? 2 : 1)) { System.out.println("Usage: pwd"); }
-                        else { fs.pwd(); }
-                        break;
-
-                    case "find":
-                        if(commandParts.length < (adminPermission ? 3 : 2)) { System.out.println("Usage: find <file/directory name>"); }
-                        else { fs.findInCurrentDirectory(adminPermission ? commandParts[2] : commandParts[1]); }
-                        break;
-
-                    case "stat":
-                        if(commandParts.length < (adminPermission ? 3 : 2)){ System.out.println("Usage: stat <file/directory name>"); }
-                        else { fs.showObjectStat(adminPermission ? commandParts[2] : commandParts[1]); }
-                        break;
-
-                    case "cp":
-                        if(commandParts.length < (adminPermission ? 4 : 3)){ System.out.println("Usage: cp <source> <destination absolute/ralative path>"); }
-                        else { fs.copy((adminPermission ? commandParts[2] : commandParts[1]) , (adminPermission ? commandParts[3] : commandParts[2])); }
-                        break;
-
-                    case "mv":
-                        if(commandParts.length < (adminPermission ? 3 : 2)){ System.out.println("Usage: mv <source> <destination absolute/relative path>"); }
-                        else { fs.move(adminPermission ? commandParts[2] : commandParts[1], adminPermission ? commandParts[3] : commandParts[2]); }
-                        break;
-
-                    case "mkdir":
-                        if(commandParts.length < (adminPermission ? 3 : 2)){ System.out.println("Usage: mkdir <directory name>"); }
-                        else { fs.makeDir(adminPermission ? commandParts[2] : commandParts[1], adminPermission); }
-                        break;
-
-                    case "rmdir":
-                        if(commandParts.length < (adminPermission ? 3 : 2)){ System.out.println("Usage: rmdir <directory name>"); }
-                        else { fs.removeDir(adminPermission ? commandParts[2] : commandParts[1], adminPermission); }
-                        break;
-
-                    case "touch":
-                        if(commandParts.length < (adminPermission ? 3 : 2)){
+                    case "help" -> {
+                        if (commandParts.length < (adminPermission ? 2 : 1)) {
+                            System.out.println("Usage: help");
+                        } else {
+                            printHelp();
+                        }
+                    }
+                    case "man" -> {
+                        if (commandParts.length < (adminPermission ? 3 : 2)) {
+                            System.out.println("Usage: man <command>");
+                        } else {
+                            printHelpForCommand(adminPermission ? commandParts[2] : commandParts[1]);
+                        }
+                    }
+                    case "ls" -> {
+                        if (commandParts.length < (adminPermission ? 2 : 1)) {
+                            System.out.println("Usage: ls");
+                        } else {
+                            fs.listObjectsFromCurrentDir();
+                        }
+                    }
+                    case "cd" -> {
+                        if (commandParts.length < (adminPermission ? 3 : 2)) {
+                            System.out.println("Usage: cd <path>");
+                        } else {
+                            fs.changeDirectory(adminPermission ? commandParts[2] : commandParts[1]);
+                        }
+                    }
+                    case "pwd" -> {
+                        if (commandParts.length < (adminPermission ? 2 : 1)) {
+                            System.out.println("Usage: pwd");
+                        } else {
+                            fs.pwd();
+                        }
+                    }
+                    case "find" -> {
+                        if (commandParts.length < (adminPermission ? 3 : 2)) {
+                            System.out.println("Usage: find <file/directory name>");
+                        } else {
+                            fs.findInCurrentDirectory(adminPermission ? commandParts[2] : commandParts[1]);
+                        }
+                    }
+                    case "stat" -> {
+                        if (commandParts.length < (adminPermission ? 3 : 2)) {
+                            System.out.println("Usage: stat <file/directory name>");
+                        } else {
+                            fs.showObjectStat(adminPermission ? commandParts[2] : commandParts[1]);
+                        }
+                    }
+                    case "cp" -> {
+                        if (commandParts.length < (adminPermission ? 4 : 3)) {
+                            System.out.println("Usage: cp <source> <destination absolute/relative path>");
+                        } else {
+                            fs.copy((adminPermission ? commandParts[2] : commandParts[1]), (adminPermission ? commandParts[3] : commandParts[2]));
+                        }
+                    }
+                    case "mv" -> {
+                        if (commandParts.length < (adminPermission ? 3 : 2)) {
+                            System.out.println("Usage: mv <source> <destination absolute/relative path>");
+                        } else {
+                            fs.move(adminPermission ? commandParts[2] : commandParts[1], adminPermission ? commandParts[3] : commandParts[2]);
+                        }
+                    }
+                    case "mkdir" -> {
+                        if (commandParts.length < (adminPermission ? 3 : 2)) {
+                            System.out.println("Usage: mkdir <directory name>");
+                        } else {
+                            fs.makeDir(adminPermission ? commandParts[2] : commandParts[1], adminPermission);
+                        }
+                    }
+                    case "rmdir" -> {
+                        if (commandParts.length < (adminPermission ? 3 : 2)) {
+                            System.out.println("Usage: rmdir <directory name>");
+                        } else {
+                            fs.removeDir(adminPermission ? commandParts[2] : commandParts[1], adminPermission);
+                        }
+                    }
+                    case "touch" -> {
+                        if (commandParts.length < (adminPermission ? 3 : 2)) {
                             System.out.println("Usage:\ntouch <file name with extension>");
                             System.out.println("touch <filename with extension> <content>");
                         } else {
                             String fileName = adminPermission ? commandParts[2] : commandParts[1];
-                            String content = "";
+                            String content;
                             if (commandParts.length > (adminPermission ? 3 : 2)) {
                                 content = String.join(" ", Arrays.copyOfRange(commandParts, adminPermission ? 3 : 2, commandParts.length));
                                 fs.makeFWithContent(fileName, content, adminPermission);
@@ -99,40 +121,43 @@ public class Main {
                                 fs.makeF(fileName, adminPermission);
                             }
                         }
-                        break;
-
-                    case "rm":
-                        if(commandParts.length < (adminPermission ? 3 : 2)){ System.out.println("Usage: rm <file name with extension>"); }
-                        else { fs.removeF(adminPermission ? commandParts[2] : commandParts[1], adminPermission); }
-                        break;
-
-                    case "cat":
-                        if(commandParts.length < (adminPermission ? 3 : 2)){ System.out.println("Usage: cat <file name with extension>"); }
-                        else { fs.cat(adminPermission ? commandParts[2] : commandParts[1], adminPermission); }
-                        break;
+                    }
+                    case "rm" -> {
+                        if (commandParts.length < (adminPermission ? 3 : 2)) {
+                            System.out.println("Usage: rm <file name with extension>");
+                        } else {
+                            fs.removeF(adminPermission ? commandParts[2] : commandParts[1], adminPermission);
+                        }
+                    }
+                    case "cat" -> {
+                        if (commandParts.length < (adminPermission ? 3 : 2)) {
+                            System.out.println("Usage: cat <file name with extension>");
+                        } else {
+                            fs.cat(adminPermission ? commandParts[2] : commandParts[1], adminPermission);
+                        }
+                    }
 
                     //case "edit":
-                        //if(commandParts.length < (adminPermission ? 3 : 2)){ System.out.println("Usage: edit <file name with extension>"); }
-                        //else {  }
-                        //break;
+                    //if(commandParts.length < (adminPermission ? 3 : 2)){ System.out.println("Usage: edit <file name with extension>"); }
+                    //else {  }
+                    //break;
 
-                    case "chmod":
-                        if(commandParts.length < (adminPermission ? 3 : 2)){ System.out.println("Usage: chmod <permissions> <file name with extension / directory name>"); }
-                        else { fs.chmod((adminPermission ? commandParts[3] : commandParts[2]), (adminPermission ? commandParts[2] : commandParts[1]), adminPermission); }
-                        break;
-
-                    case "exit":
+                    case "chmod" -> {
+                        if (commandParts.length < (adminPermission ? 3 : 2)) {
+                            System.out.println("Usage: chmod <permissions> <file name with extension / directory name>");
+                        } else {
+                            fs.chmod((adminPermission ? commandParts[3] : commandParts[2]), (adminPermission ? commandParts[2] : commandParts[1]), adminPermission);
+                        }
+                    }
+                    case "exit" -> {
                         scanner.close();
                         return;
-
-                    case "clear":
-                        clearScreen();
-                        break;
-
-                    default:
+                    }
+                    case "clear" -> clearScreen();
+                    default -> {
                         System.out.println("Unknown command: " + command);
                         System.out.println("Type 'help' for a list of available commands.");
-                        break;
+                    }
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -172,79 +197,80 @@ public class Main {
 
     public static void printHelpForCommand(String command) {
         switch (command) {
-            case "ls":
+            case "ls" -> {
                 System.out.println("ls - lists directory contents.");
                 System.out.println("Usage: ls");
-                break;
-            case "cd":
+            }
+            case "cd" -> {
                 System.out.println("cd - changes the current directory.");
                 System.out.println("Usage: cd <path>");
-                break;
-            case "pwd":
-              System.out.println("pwd - prints the current working directory path.");
-              System.out.println("Usage: pwd");
-              break;
-            case "find":
+            }
+            case "pwd" -> {
+                System.out.println("pwd - prints the current working directory path.");
+                System.out.println("Usage: pwd");
+            }
+            case "find" -> {
                 System.out.println("find - finds a file or directory by name.");
                 System.out.println("Usage: find <file/directory name>");
-                break;
-            case "stat":
+            }
+            case "stat" -> {
                 System.out.println("stat - displays information about a file or directory within current directory.");
                 System.out.println("Usage: stat <file/directory name>");
-                break;
-            case "cp":
+            }
+            case "cp" -> {
                 System.out.println("cp - copies a file or directory.");
                 System.out.println("Usage: cp <source> <destination absolute/relative path>");
-                break;
-            case "mv":
+            }
+            case "mv" -> {
                 System.out.println("mv - moves or renames a file or directory.");
                 System.out.println("Usage: mv <source> <destination absolute/relative path>");
-                break;
-            case "mkdir":
+            }
+            case "mkdir" -> {
                 System.out.println("mkdir - creates a new directory.");
                 System.out.println("Usage: mkdir <directory name>");
-                break;
-            case "rmdir":
+            }
+            case "rmdir" -> {
                 System.out.println("rmdir - removes an empty directory.");
                 System.out.println("Usage: rmdir <directory name>");
-                break;
-            case "touch":
+            }
+            case "touch" -> {
                 System.out.println("touch - creates a new file.");
                 System.out.println("Usage: touch <file name>");
                 System.out.println("Usage: touch <file name> [content]");
-                break;
-            case "rm":
+            }
+            case "rm" -> {
                 System.out.println("rm - removes a file.");
                 System.out.println("Usage: rm <file name>");
-                break;
-            case "cat":
+            }
+            case "cat" -> {
                 System.out.println("cat - displays file content.");
                 System.out.println("Usage: cat <file name>");
-                break;
+            }
             //case "edit":
-                //System.out.println("edit - edits file content.);
-                //System.out.println("Usage: edit <file name>");
-                //break;
-            case "chmod":
+            //System.out.println("edit - edits file content.);
+            //System.out.println("Usage: edit <file name>");
+            //break;
+            case "chmod" -> {
                 System.out.println("chmod - changes file permissions.");
                 System.out.println("Usage: chmod <permissions> <file name with extension / directory name>");
                 System.out.println("[permissions]:");
-                System.out.println("000 - Not writeable; Not deleteable; Not readable");
-                System.out.println("001 - Not writeable; Not deleteable; Readable");
-                System.out.println("010 - Not writeable; Deleteable; Not readable");
-                System.out.println("011 - Not writeable; Deleteable; Readable");
-                System.out.println("100 - Writeable; Not deleteable; Not readable");
-                System.out.println("101 - Writeable; Not deleteable; Readable");
-                System.out.println("110 - Writeable; Deleteable; Not readable");
-                System.out.println("111 - Writeable; Deleteable; Readable");
-                break;
-            case "exit":
+                System.out.println("000 - Not writeable; Not deletable; Not readable");
+                System.out.println("001 - Not writeable; Not deletable; Readable");
+                System.out.println("010 - Not writeable; Deletable; Not readable");
+                System.out.println("011 - Not writeable; Deletable; Readable");
+                System.out.println("100 - Writeable; Not deletable; Not readable");
+                System.out.println("101 - Writeable; Not deletable; Readable");
+                System.out.println("110 - Writeable; Deletable; Not readable");
+                System.out.println("111 - Writeable; Deletable; Readable");
+            }
+            case "exit" -> {
                 System.out.println("exit - exits the program.");
                 System.out.println("Usage: exit");
-                break;
-            default:
+            }
+            default -> {
                 System.out.println("Unknown command: " + command);
                 System.out.println("Type 'help' for a list of available commands.");
+            }
         }
     }
 }

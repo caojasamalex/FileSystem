@@ -178,7 +178,6 @@ public class FSDirectory extends FSObject {
         FSFile newChild = new FSFile(this, fullName, extension, content.getBytes());
         newChild.setSystem(admin);
         children.add(newChild);
-        updateSize(newChild.getSize());
     }
 
     private boolean fileWithNameAndExtension(String name, String extension) {
@@ -194,7 +193,7 @@ public class FSDirectory extends FSObject {
     void removeDirectory(String name, boolean admin) throws DirNotEmptyException {
         for(FSObject child : children){
             if(child instanceof FSDirectory && child.getName().equals(name)){
-                if(child.isSystemFD() && admin || !child.isSystemFD()){
+                if(admin || !child.isSystemFD()){
                     if (((FSDirectory) child).getChildren().isEmpty()) {
                         this.children.remove(child);
                     } else {
@@ -268,12 +267,17 @@ public class FSDirectory extends FSObject {
         System.out.println("File not found: " + sourceName);
     }
 
-    public void moveDir(FSDirectory destination, boolean admin) throws NoExtensionException {
+    public void moveDir(FSDirectory source, FSDirectory destination, boolean admin) throws NoExtensionException {
         for (FSObject child : children) {
             if (child instanceof FSDirectory) {
                 if(child.getName().equals(destination.getName())){
-                    if(!child.isSystemFD()) {
-                        child.setParent(destination);
+                    if(!child.isSystemFD()||admin) {
+                        this.updateSize(-source.getSize());
+                        source.setParent(destination);
+                        destination.updateSize(source.getSize());
+                        destination.addChild(source);
+                        this.children.remove(source);
+                        return;
                     } else {
                         throw new NoExtensionException("This directory cannot be moved with these privileges !");
                     }
@@ -289,7 +293,9 @@ public class FSDirectory extends FSObject {
                 String fileName = file.getName() + file.getExtension();
                 if (fileName.equals(sourceName)) {
                     if(!file.isSystemFD() || admin) {
+                        this.updateSize(-file.getSize());
                         file.setParent(destination);
+                        destination.updateSize(file.getSize());
                         destination.addChild(file);
                         this.children.remove(file);
                         return;
