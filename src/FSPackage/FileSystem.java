@@ -180,4 +180,8 @@ public class FileSystem {
     public void pwd(){
         System.out.println("/" + current.getPath() + "/");
     }
+
+    public void chnam(String source, String newName, boolean admin){
+        current.changeName(source, newName, admin);
+    }
 }

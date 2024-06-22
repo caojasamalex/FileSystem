@@ -336,4 +336,22 @@ public class FSDirectory extends FSObject {
             }
         }
     }
+
+    void changeName(String source, String newName, boolean admin){
+        String temp;
+
+        for(FSObject child : children){
+            temp = child.getName();
+            if(child instanceof FSFile){
+                temp += ((FSFile) child).getExtension();
+            }
+
+            if(temp.equals(source)){
+                if(!child.isSystemFD() || admin){
+                    child.setName(newName);
+                    System.out.println("Name has been successfully changed !");
+                }
+            }
+        }
+    }
 }

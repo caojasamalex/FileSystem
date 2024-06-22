@@ -151,6 +151,13 @@ public class Main {
                     }
                     case "clear" -> clearScreen();
                     case "statroot" -> System.out.println("Free space: " + fs.getFreeSpace() + " Bytes");
+                    case "chnam" -> {
+                        if(commandParts.length < (adminPermission ? 3 : 2)){
+                            System.out.println("Usage: chnam <file name with extension / directory name> <new name>");
+                        } else {
+                            fs.chnam(adminPermission ? commandParts[2] : commandParts[1], adminPermission ? commandParts[3] : commandParts[2], adminPermission);
+                        }
+                    }
                     case "exit" -> {
                         scanner.close();
                         return;
