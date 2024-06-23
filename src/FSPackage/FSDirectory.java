@@ -327,7 +327,7 @@ public class FSDirectory extends FSObject {
                             children.remove(child);
                             System.out.println("File '" + child.getName()+ ((FSFile) child).getExtension() + "' deleted successfully !");
                         } else {
-                            throw new PermissionException("File is not deleteable or is not a system file");
+                            throw new PermissionException("File is not deleteable or is a system file");
                         }
                     }
                 } else {

@@ -88,7 +88,7 @@ public class FileSystem {
         current.removeDirectory(name, admin);
     }
 
-    public void copy(String name, String destination) throws InsufficientStorageException {
+    public void copy(String name, String destination, boolean admin) throws InsufficientStorageException, PermissionException {
         FSObject sourceObject = current.getChild(name);
         FSObject destinationObject = current.getChild(destination);
 
@@ -106,6 +106,10 @@ public class FileSystem {
             throw new InsufficientStorageException("Not enough free space !");
         }
 
+        if(sourceObject.isSystemFD() && !admin){
+            throw new PermissionException("Copying of a system file/directory is not permitted - Escalate your permissions !");
+        }
+
         try {
             if (sourceObject instanceof FSDirectory) {
                 ((FSDirectory) sourceObject).copyDir((FSDirectory) destinationObject, false);
@@ -120,7 +124,7 @@ public class FileSystem {
         }
     }
 
-    public void move(String name, String destination){
+    public void move(String name, String destination, boolean admin){
         FSObject sourceObject = current.getChild(name);
         FSObject destinationObject = current.getChild(destination);
 
@@ -136,10 +140,10 @@ public class FileSystem {
 
         try {
             if (sourceObject instanceof FSDirectory) {
-                current.moveDir((FSDirectory) sourceObject, (FSDirectory) destinationObject, false);
+                current.moveDir((FSDirectory) sourceObject, (FSDirectory) destinationObject, admin);
                 System.out.println("Directory moved successfully.");
             } else if (sourceObject instanceof FSFile) {
-                current.moveFile(name, (FSDirectory) destinationObject, false);
+                current.moveFile(name, (FSDirectory) destinationObject, admin);
             } else {
                 System.out.println("Source is neither a directory nor a file: " + name);
             }

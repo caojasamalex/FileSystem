@@ -30,13 +30,7 @@ public class Main {
 
             try {
                 switch (command) {
-                    case "help" -> {
-                        if (commandParts.length < (adminPermission ? 2 : 1)) {
-                            System.out.println("Usage: help");
-                        } else {
-                            printHelp();
-                        }
-                    }
+                    case "help" -> printHelp();
                     case "man" -> {
                         if (commandParts.length < (adminPermission ? 3 : 2)) {
                             System.out.println("Usage: man <command>");
@@ -45,11 +39,7 @@ public class Main {
                         }
                     }
                     case "ls" -> {
-                        if (commandParts.length < (adminPermission ? 2 : 1)) {
-                            System.out.println("Usage: ls");
-                        } else {
-                            fs.listObjectsFromCurrentDir();
-                        }
+                        fs.listObjectsFromCurrentDir();
                     }
                     case "cd" -> {
                         if (commandParts.length < (adminPermission ? 3 : 2)) {
@@ -59,11 +49,7 @@ public class Main {
                         }
                     }
                     case "pwd" -> {
-                        if (commandParts.length < (adminPermission ? 2 : 1)) {
-                            System.out.println("Usage: pwd");
-                        } else {
-                            fs.pwd();
-                        }
+                        fs.pwd();
                     }
                     case "find" -> {
                         if (commandParts.length < (adminPermission ? 3 : 2)) {
@@ -83,14 +69,14 @@ public class Main {
                         if (commandParts.length < (adminPermission ? 4 : 3)) {
                             System.out.println("Usage: cp <source> <destination absolute/relative path>");
                         } else {
-                            fs.copy((adminPermission ? commandParts[2] : commandParts[1]), (adminPermission ? commandParts[3] : commandParts[2]));
+                            fs.copy((adminPermission ? commandParts[2] : commandParts[1]), (adminPermission ? commandParts[3] : commandParts[2]), adminPermission);
                         }
                     }
                     case "mv" -> {
                         if (commandParts.length < (adminPermission ? 3 : 2)) {
                             System.out.println("Usage: mv <source> <destination absolute/relative path>");
                         } else {
-                            fs.move(adminPermission ? commandParts[2] : commandParts[1], adminPermission ? commandParts[3] : commandParts[2]);
+                            fs.move(adminPermission ? commandParts[2] : commandParts[1], adminPermission ? commandParts[3] : commandParts[2], adminPermission);
                         }
                     }
                     case "mkdir" -> {
@@ -191,6 +177,7 @@ public class Main {
         System.out.println("\tpwd - print working directory");
         System.out.println("\tfind - find a file/directory path by name");
         System.out.println("\tstat - display information about file/directory that's in the current directory");
+        System.out.println("\tstatroot - show remaining storage space");
         System.out.println("\tcp - copy a file/directory");
         System.out.println("\tmv - move a file/directory");
         System.out.println("\tmkdir - make a directory");
@@ -200,6 +187,7 @@ public class Main {
         System.out.println("\tcat - file's content display");
         //System.out.println("\tedit - edit file's content");
         System.out.println("\tchmod - change file permissions");
+        System.out.println("\tchnam - change file/directory name");
         System.out.println("\texit - exit program");
     }
 
@@ -224,6 +212,10 @@ public class Main {
             case "stat" -> {
                 System.out.println("stat - displays information about a file or directory within current directory.");
                 System.out.println("Usage: stat <file/directory name>");
+            }
+            case "statroot" -> {
+                System.out.println("statroot - Show remaining storage space");
+                System.out.println("Usage: statroot");
             }
             case "cp" -> {
                 System.out.println("cp - copies a file or directory.");
@@ -271,9 +263,17 @@ public class Main {
                 System.out.println("110 - Writeable; Deletable; Not readable");
                 System.out.println("111 - Writeable; Deletable; Readable");
             }
+            case "chnam" -> {
+                System.out.println("chnam - Change file/directory name");
+                System.out.println("Usage: chnam <source> <new name>");
+            }
             case "exit" -> {
                 System.out.println("exit - exits the program.");
                 System.out.println("Usage: exit");
+            }
+            case "sudo" -> {
+                System.out.println("sudo - executing actions with escalated (root) privileges");
+                System.out.println("Usage: sudo <command>");
             }
             default -> {
                 System.out.println("Unknown command: " + command);
