@@ -226,7 +226,7 @@ public class FSDirectory extends FSObject {
             if(child instanceof FSFile){
                 temp = child.getName() + ((FSFile) child).getExtension();
                 if(temp.equals(nameWithExtension)){
-                    if(child.canRead() || admin ){
+                    if(child.canRead() && !child.isSystemFD() || admin ){
                         System.out.println(((FSFile) child).getStringContent());
                     } else {
                         throw new PermissionException("File is not readable or is a system file !");
